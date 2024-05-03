@@ -1,5 +1,8 @@
 package com.example.practicenumberconvert1;
-
+//NumperConvert
+//v1
+//03.05.2024
+//Arthur Belugin
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText inputString; // variable
+    EditText inputString, outputString; // variable
+    String strVal;
+    private static String[] hexadecimalChart = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+    // моссив тут, чтобы срздаваться рдин раз, а не каждый раз при вызове функции, я буду обращаться к нему как к const
     RadioButton bt1,bt2,bt3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         inputString = findViewById(R.id.editTextNumberSigned); // присвоил значение  и строке и кнопкам
+        outputString = findViewById(R.id.editTextText2);
+        strVal = String.valueOf(inputString.getText()); // мы из editable сделали string и его уже получили
         bt1 = findViewById(R.id.radioButton7);
         bt2 = findViewById(R.id.radioButton8);
         bt3 = findViewById(R.id.radioButton9);
@@ -33,8 +39,32 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttoOnClick(View view) {
         //создаётся в .xml вручную
-        if(bt1.isActivated()){
-            inputString.setText("кто прочёл, тот и осёл");
+        strVal = String.valueOf(inputString.getText());
+        int num = Integer.parseInt(strVal.replace(" ", ""));
+        //System.out.println(); // вывод на экран LogCat снизу слева(котик)
+        if(bt1.isChecked()){
+            outputString.setText(ConvertNumber(num,2));
         }
+        if(bt2.isChecked()){
+            outputString.setText(ConvertNumber(num,8));
+        }
+        if(bt3.isChecked()){
+            outputString.setText(ConvertNumber(num,16));
+        }
+
+    }
+    String ConvertNumber(int num, int i){
+        // i - это наша система счисления
+        String str = "";
+        //String hexadecimal [] = new String[16]; //рабочий вариант для пустого массива, но мы используем другой
+
+        while(num > 0){
+            if(i == 16)
+                str = hexadecimalChart[num%i] + str;
+            else
+                str = (num%i+"")+ str;
+            num = num/i;
+        }
+        return (str);
     }
 }

@@ -32,28 +32,43 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         inputString = findViewById(R.id.editTextNumberSigned); // присвоил значение  и строке и кнопкам
         outputString = findViewById(R.id.editTextText2);
         strVal = String.valueOf(inputString.getText()); // мы из editable сделали string и его уже получили
         bt1 = findViewById(R.id.radioButton7);
         bt2 = findViewById(R.id.radioButton8);
         bt3 = findViewById(R.id.radioButton9);
+        // нажмём одну из кнопок по умолчанию
+        bt1.toggle();
     }
 
     public void buttoOnClick(View view) {
         //создаётся в .xml вручную
         strVal = String.valueOf(inputString.getText());
-        int num = Integer.parseInt(strVal.replace(" ", ""));
-        //System.out.println(); // вывод на экран LogCat снизу слева(котик)
-        if(bt1.isChecked()){
-            outputString.setText(ConvertNumber(num,2));
+        char sign = ' '; //знак числа
+        if(!strVal.isEmpty()){
+            //если число отрицательное
+            if(strVal.contains("-")){
+                sign = '-';
+            }
+            int num = Integer.parseInt(strVal.replace(" ", "").replace("-", ""));
+
+            //System.out.println(); // вывод на экран LogCat снизу слева(котик)
+            if(bt1.isChecked()){
+                outputString.setText(sign+ConvertNumber(num,2));
+            }
+            if(bt2.isChecked()){
+                outputString.setText(sign+ConvertNumber(num,8));
+            }
+            if(bt3.isChecked()){
+                outputString.setText(sign+ConvertNumber(num,16));
+            }
         }
-        if(bt2.isChecked()){
-            outputString.setText(ConvertNumber(num,8));
+        else{
+            outputString.setText("Введите число");
         }
-        if(bt3.isChecked()){
-            outputString.setText(ConvertNumber(num,16));
-        }
+
 
     }
     String ConvertNumber(int num, int i){
